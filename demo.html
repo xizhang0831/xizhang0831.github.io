@@ -7,7 +7,10 @@
 </head>
 <body>
     <!-- Step2: Prepare a Dom which must have width and height -->
+<div>
     <div id="main" style="height:400px; width:1000px; 1px solid #ccc; padding: 10px;"></div>
+    <div id="main2" style="height:400px; width:1000px; 1px solid #ccc; padding: 10px;"></div>
+</div>
     <script type="text/javascript" language="javascript">
         require.config({
             paths:{
@@ -29,8 +32,8 @@
                 
                 var option = {
                     title : {
-                        subtext: 'Data from US Cluster Mapping',
-                        sublink: 'http://www.clustermapping.us/home',
+                        subtext: 'Data from UN',
+                        sublink: 'http://esa.un.org/wpp/Excel-Data/population.htm',
                         x: 'center',
                         y: 'bottom'
                     },
@@ -41,22 +44,21 @@
                         show : true,
                         y: 'bottom',
                         feature : {
-                            mark : {show: true},
-                            dataView : {show: true, readOnly: false},
-                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-                            restore : {show: true},
-                            saveAsImage : {show: true}
+                            dataView : {show: true, title:'data view',readOnly: false},
+                            magicType : {show: true, title:{line:'line',bar:'bar',stack:'stack',tile:'tiled'},type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true,title:'restore'},
+                            saveAsImage : {show: true,title:'save as image'}
                         }
                     },
-                    calculabe : true,
+                    calculable : true,
                     legend: {
-                        data:['New York','Syracuse-Auburn','Rochester-Batavia-Seneca Falls','Buffalo-Niagara-Cattaraugus','Albany-Schenectady-Amsterdam']
+                        data:['Africa','Asia','Europe','Latin America','Northern America','Oceania']
                     },
                     xAxis : [
                         {
                             type : 'category',
                             splitLine : {show : false},
-                            data : ['1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010']
+                            data : ['2005','2006','2007','2008','2009','2010']
                         }
                     ],
                     yAxis : [
@@ -68,44 +70,97 @@
                     ],
                     series : [
                         {
-                            name:'New York',
+                            name:'Africa',
                             type:'bar',
-                            data:[27,27,28,28,32,31,29,23,21,22,21,18,17]
+                            data:[911528,934079,957318,981243,1005838,1031084]
                         },
                         {
-                            name:'Syracuse-Auburn',
+                            name:'Asia',
                             type:'bar',
-                            data:[1.74,2.25,2.16,1.7,2.13,2.092,2.11,2.47,1.77,1.52,1.55,1.4,0.93]
+                            data:[3942882,3987509,4032014,4076463,4120930,4165440]
                         },
                         {
-                            name:'Rochester-Batavia-Seneca Falls',
+                            name:'Europe',
                             type:'bar',
-                            data:[0.31,0.33,0.45,0.39,0.41,0.58,0.68,0.53,0.53,0.39,0.39,0.39,0.39]
+                            data:[732970,734361,735929,737546,739047,740308]
                         },
                         {
-                            name:'Buffalo-Niagara-Cattaraugus',
+                            name:'Latin America',
                             type:'bar',
-                            data:[0.38,0.36,0.39,0.37,0.35,0.44,0.46,0.33,0.51,0.49,0.5,0.46,0.54]
+                            data:[562546,569400,576136,582806,589476,596191]
                         },
                         {
-                            name:'Albany-Schenectady-Amsterdam',
+                            name:'Northern America',
                             type:'bar',
-                            data:[0.21,0.23,0.23,0.21,0.23,0.39,0.4,0.43,0.5,0.49,0.4,0.26,0.3]
+                            data:[330546,333681,336900,340154,343372,346501]
+                        },
+                         {
+                            name:'Oceania',
+                            type:'bar',
+                            data:[33623,34198,34808,35437,36059,36659]
                         },
                         {
-                            name:'NY State Economic Areas',
+                            name:'World',
                             type:'line',
-                            data:[29.64,30.17,31.23,30.67,35.12,34.50,32.65,26.76,24.31,24.89,23.84,20.51,19.16]
-                        },
+                            data:[6514095,6593228,6673106,6753649,6834722,6916183]
+                        }
+                    ]
+                };
+                
+                myChart.setOption(option);
+            }
+        );
+        </script>
+    <script type="text/javascript" language="javascript">
+        require.config({
+            paths:{
+                'echarts' : './js/echarts',
+                'echarts/chart/bar' : '.js/echarts',
+                'echarts/chart/line' : '.js/echarts',
+                'echarts/chart/pie' : '.js/echarts'
+            }
+        });
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar',
+                'echarts/chart/line',
+                'echarts/chart/pie'
+            ],
+            function(ec2) {
+                var myChart2 = ec2.init(document.getElementById('main2'));
+                
+                var option2 = {
+                   calculable : true,
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    toolbox: {
+                        show : true,
+                        y: 'bottom',
+                        feature : {
+                            dataView : {show: true, title:'data view',readOnly: false},
+                            restore : {show: true,title:'restore'},
+                            saveAsImage : {show: true,title:'save as image'}
+                        }
+                    },
+                    yAxis : [
                         {
-                            name:'NY State Economic Area Class',
+                            type : 'value',
+                            position: 'right',
+                            splitArea : {show: true}
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'World Population 2010',
                             type:'pie',
                             tooltip : {
                                 trigger: 'item',
                                 formatter: '{a} <br/>{b} : {c} ({d}%)'
                             },
-                            center: [800,120],
-                            radius : [0, 50],
+                            center: [400,220],
+                            radius : [0, 60],
                             startAngle: 55,
                             itemStyle : {
                                 normal : {
@@ -115,18 +170,37 @@
                                 }
                             },
                             data:[
-                                {value:324, name:'New York'},
-                                {value:23.822, name:'Syracuse-Auburn'},
-                                {value:5.77, name:'Rochester-Batavia-Seneca Falls'},
-                                {value:5.58, name:'Buffalo-Niagara-Cattaraugus'},
-                                {value:4.28, name:'Albany-Schenectady-Amsterdam'}
+                                {value:342595, name:'Eastern Africa'},
+                                {value:124978, name:'Middle Africa'},
+                                {value:199620, name:'Northern Africa'},
+                                {value:58803, name:'Southern Africa'},
+                                {value:305088, name:'Western Africa'},
+                                {value:1593571, name:'Eastern Asia'},
+                                {value:1743101, name:'South-Central Asia'},
+                                {value:61694, name:'Central Asia'},
+                                {value:1681407, name:'Southern Asia'},
+                                {value:597097, name:'South-Eastern Asia'},
+                                {value:231671, name:'Western Asia'},
+                                {value:296183, name:'Eastern Europe'},
+                                {value:98795, name:'Northern Europe'},
+                                {value:154712, name:'Southern Europe'},
+                                {value:190618, name:'Western Europe'},
+                                {value:41625, name:'Caribbean'},
+                                {value:160546, name:'Central America'},
+                                {value:394021, name:'South America'},
+                                {value:346501, name:'Northern America'},
+                                {value:26773, name:'Australia/NewZealand'},
+                                {value:8729, name:'Melanesia'},
+                                {value:498, name:'Micronesia'},
+                                {value:660, name:'Polynesia'},
                             ]
                         }
-                    ]
-                };
-                
-                myChart.setOption(option);
-            }
-        );
-        </script>
+                      ]
+                   };
+
+                  myChart2.setOption(option2);
+                }
+              );
+          
+           </script>                 
     </body>
